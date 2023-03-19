@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { BodyService } from './services/body.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Pass-App';
+
+  // constructor(private document:Document,private body:BodyService){
+  //   this.body = this.document
+  // }
+
 }

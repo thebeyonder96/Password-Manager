@@ -1,0 +1,25 @@
+<app-navbar></app-navbar>
+<section class="container relative mx-auto backdrop-blur-3xl md:mt-28 mb-24">
+  <div>
+    <div class="relative flex items-center justify-between p-4 my-12">
+      <div class="left z-30">
+        <p class="mt-6 mb-4 md:mb-2 md:mt-0 md:text-base md:font-semibold">At the end of the day, the goals are simple:</p>
+          <h1 class="text-6xl md:text-9xl font-bold mb-10 drop-shadow-2xl uppercase"><span class="text-[#0a66c2]">safety</span>  and <span class="text-[#0a66c2]">security.</span></h1>
+        <div class="flex items-center gap-4 md:my-4">
+          <button
+            class="px-4 py-2 bg-[#0a66c2] text-white shadow hover:shadow-lg font-semibold rounded hover:rounded-xl transition-all duration-500"><i
+              class="fa-brands fa-linkedin"></i> LinkedIn</button>
+          <button
+            class="bg-[#120e36] px-4 py-2 text-white shadow hover:shadow-lg font-semibold rounded hover:rounded-xl transition-all duration-500"><i
+              class="fa-brands fa-github"></i> GitHub</button>
+        </div>
+      </div>
+      <div class="hidden right p-5 scale-50 md:scale-100 absolute bottom-0 left-1/2 md:static md:block">
+        <img src="../../assets/undraw_vault_re_s4my.svg" class="min-w-[600px]">
+      </div>
+    </div>
+  </div>
+</section>
+
+<app-site-list></app-site-list>
+<router-outlet></router-outlet>

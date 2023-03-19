@@ -1,1 +1,39 @@
 /* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800&display=swap');
+
+*{
+  font-family: 'Noto Sans', sans-serif;
+  transition: all 0.5s;
+}
+// body{
+//   background-color: black;
+//   color: white;
+// }
+
+@layer base {
+  h1 {
+    @apply text-3xl
+  }
+
+  h2{
+    @apply text-sm font-bold
+  }
+
+  input[type="text"],input[type="password"] {
+    @apply px-4 py-2 border-[1px] border-slate-300 outline-none rounded disabled:bg-gray-200
+  }
+}
+
+@layer components {
+  .btn {
+    @apply px-6 bg-[#407cf3] text-white rounded hover:rounded-lg disabled:bg-slate-400/40 disabled:text-black hover:disabled:opacity-100
+  }
+
+  .dark{
+    @apply bg-black
+  }
+}

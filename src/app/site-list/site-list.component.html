@@ -1,0 +1,44 @@
+<section class="container mx-auto my-6">
+  <div>
+    <form #passForm="ngForm" (ngSubmit)="onSubmit(passForm)" class="relative w-full flex flex-col gap-4 items-center justify-center px-4">
+
+      <div *ngIf="isSuccess" class=" bg-emerald-200 text-emerald-800 font-bold text-xl w-max h-max px-4 py-2 rounded-md">
+        {{successMessage}} &nbsp; <i class="fa-solid fa-circle-check"></i>
+      </div>
+
+      <h1 class="font-bold capitalize">{{formState}} site</h1>
+      <p class="capitalize mb-2">Add new site with the below form</p>
+      <div class="w-full flex flex-col">
+        <label class="font-bold mb-1">Site Name</label>
+        <input name="siteName" [(ngModel)]="name" type="text">
+      </div>
+      <div class="w-full flex flex-col">
+        <label class="font-bold mb-1">Site URL</label>
+        <input name="siteUrl" [(ngModel)]="URL" type="text">
+      </div>
+      <div class="w-full flex flex-col">
+        <label class="font-bold mb-1">Site Image URL</label>
+        <input name="siteImageUrl" [(ngModel)]="imgURL" type="text">
+      </div>
+      <div>
+        <button class="btn py-2 mr-3">{{formState}}</button>
+        <button class="btn py-2 bg-slate-600">Cancel</button>
+      </div>
+    </form>
+  </div>
+
+
+  <h1 class="font-bold text-center mt-10 my-4">All Sites</h1>
+  <div class="w-full grid mx-4 md:grid-cols-4 gap-6 md:gap-12">
+    <div *ngFor="let site of allSites | async" class="w-[380px] p-4 shadow-md border-[1px] rounded-lg bg-slate-50 flex flex-col gap-3">
+      <img class="rounded w-full h-36 object-cover object-center" [src]="site.siteImageUrl">
+      <h1 class="font-bold">{{site.siteName}}</h1>
+      <a href="{{site.siteUrl}}" class="text-[#5699db] text-sm w-full tracking-widest italic px-2 py-1 rounded-lg cursor-pointer">{{site.siteUrl}}</a>
+      <div class="flex items-center justify-between gap-2 p-4 -ml-2">
+        <button routerLink="/password-list" [queryParams]="{id:site.id,name:site.siteName,image:site.siteImageUrl,url:site.siteUrl}" class="btn whitespace-nowrap font-semibold py-2">Add password</button>
+        <button (click)="editSites(site.siteName,site.siteUrl,site.siteImageUrl,site.id)" class="btn bg-black hover:scale-110 transition-all duration-500 flex items-center justify-center rounded-lg py-3 text-yellow-500"><i class="fa-solid fa-pen-to-square"></i></button>
+        <button (click)="deleteSite(site.id)" class="btn hover:scale-110 transition-all duration-500 py-3 bg-black text-red-500 flex items-center justify-center rounded-lg"><i class="fa-solid fa-trash"></i></button>
+      </div>
+    </div>
+  </div>
+</section>

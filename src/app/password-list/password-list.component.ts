@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { PasswordManagerService } from '../services/password-manager.service';
-import { AES, enc } from 'crypto-js';
-
+// import { AES, enc } from 'crypto-js';
+import * as CryptoJS from 'crypto-js';
 @Component({
   selector: 'app-password-list',
   templateUrl: './password-list.component.html',
@@ -12,7 +12,7 @@ import { AES, enc } from 'crypto-js';
 export class PasswordListComponent {
   siteDetails!: any;
   siteId!: string;
-  passList!: Observable<Array<any>>;
+  passList!: Array<any>;
 
   email!: string;
   username!: string;
@@ -32,16 +32,19 @@ export class PasswordListComponent {
     this.loadPass();
   }
 
-  onSubmit(form: any) {
+  onSubmit(forma: any) {
     //
+    console.log(forma.value.password);
 
-    const encPass = this.encryptPass(form.password);
-    form.value.password = encPass;
+    const encPass = this.encryptPass(forma.value.password);
+    forma.value.password = encPass;
+    console.log(forma.value.password);
 
     if (this.formState == 'Add new') {
       this.passService
-        .addPassword(form.value, this.siteId)
+        .addPassword(forma.value, this.siteId)
         .then(() => {
+          console.log('lllll' + forma.value);
           console.log('Successfull');
         })
         .catch((err) => {
@@ -49,7 +52,7 @@ export class PasswordListComponent {
         });
     } else if (this.formState == 'Edit') {
       this.passService
-        .updatePass(this.siteId, this.id, form.value)
+        .updatePass(this.siteId, this.id, forma.value)
         .then(() => {
           console.log('updated');
           this.formState = 'Add new';
@@ -59,13 +62,12 @@ export class PasswordListComponent {
         });
     }
 
-    form.reset();
+    forma.reset();
   }
 
   loadPass() {
-    this.passList = this.passService.loadPassword(this.siteId);
-    this.passList.subscribe((val) => {
-      console.log(val);
+    this.passService.loadPassword(this.siteId).subscribe((val: any) => {
+      this.passList = val;
     });
   }
 
@@ -90,21 +92,33 @@ export class PasswordListComponent {
 
   encryptPass(password: string) {
     const secretKey = 'w9z$C&F)J@NcRfUjXnZr4u7x!A%D*G-K';
+    console.log(password);
+
     const encPass = CryptoJS.AES.encrypt(password, secretKey).toString();
+    console.log(encPass);
+
     return encPass;
   }
 
   decryptPass(password: string) {
     console.log(password);
-
     const secretKey = 'w9z$C&F)J@NcRfUjXnZr4u7x!A%D*G-K';
-    const decryptPass = AES.decrypt(password, secretKey).toString(enc.Utf8);
-    // return decryptPass;
-    console.log(decryptPass);
+    //  const encPass = CryptoJS.AES.encrypt(password, secretKey).toString();
+    //  console.log(encPass);
+
+    var decrypted = CryptoJS.AES.decrypt(password, secretKey);
+    var decrypteds = decrypted.toString(CryptoJS.enc.Utf8);
+
+    // const decryptPass = AES.decrypt(password, secretKey)
+    // const decrypted = decryptPass.toString(enc.Utf8);
+    return decrypteds;
+    console.log(` d - ${decrypteds}`);
   }
 
-  onDecrypt(password: string) {
+  onDecrypt(password: string, index: any) {
     const decryptPassword = this.decryptPass(password);
-    console.log(decryptPassword);
+    this.passList[index].password = decryptPassword;
+    console.log();
+
   }
 }
